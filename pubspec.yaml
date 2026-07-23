@@ -2,7 +2,6 @@ name: zikzak_json
 description: A best-effort JSON parser using simdjson_dart for speed and json5_plus for flexibility.
 version: 0.1.0
 repository: https://github.com/arrrrny/zikzak_json
-publish_to: https://pub.zuzu.dev
 homepage: https://zikzak.ai
 documentation: https://github.com/arrrrny/zikzak_json#readme
 issue_tracker: https://github.com/arrrrny/zikzak_json/issues
