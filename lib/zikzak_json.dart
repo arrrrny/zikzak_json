@@ -1,8 +1,10 @@
-/// Support for doing something awesome.
-///
-/// More dartdocs go here.
-library;
+library zikzak_json;
 
-export 'src/zikzak_json_base.dart';
+/// Core: decode, encode, toRaw, extractJson, typed convenience, helpers.
+export 'src/zikzak_json.dart';
 
-// TODO: Export any libraries intended for clients of this package.
+/// Engine options for fine-grained control.
+export 'src/engine.dart' show ZikZakJsonEngine, ZikZakJsonOptions;
+
+/// Low-level Json5→Map converter (also accessible via ZikZakJson.toRaw).
+export 'src/to_raw.dart' show toRaw;

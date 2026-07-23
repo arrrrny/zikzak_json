@@ -1,39 +1,154 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# zikzak_json
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+A best-effort JSON parser for Dart. Uses `simdjson_dart` for speed on
+standard JSON and falls back to `json5_plus` for comments, trailing commas,
+unquoted keys, and numeric object keys. The caller never needs to think
+about which engine is running — `zikzak_json` handles everything and always
+returns clean raw Dart types (`Map`, `List`, `String`, `num`, `bool`, `null`).
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/tools/pub/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+[![pub package](https://img.shields.io/pub/v/zikzak_json.svg)](https://pub.dev/packages/zikzak_json)
+[![license: BSD-3](https://img.shields.io/badge/license-BSD--3--Clause-blue.svg)](LICENSE)
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+---
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+- **Dual-engine architecture** — simdjson for strict JSON (>3x faster), json5_plus for everything else
+- **Transparent fallback** — feed it any JSON or JSON5, get raw Dart types back
+- **Fast-path heuristic** — detects JSON5 features (comments, unquoted keys, trailing commas) in the first 4KB to skip simdjson when failure is predictable
+- **No `Json5` wrapper objects** — recursive `toRaw()` conversion strips wrapper types so you always get plain `Map`/`List`/primitives
+- **Extract paths** — dot-notation or JSONPath extraction without full document traversal
+- **Thread-safe** — all decode calls are independent, no mutable global state
 
 ## Getting started
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+**zikzak_json** is a pure Dart package with zero Flutter dependencies.
+
+```yaml
+dependencies:
+  zikzak_json: ^0.1.0
+```
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+### Basic decode
 
 ```dart
-const like = 'sample';
+import 'package:zikzak_json/zikzak_json.dart';
+
+// Standard JSON → simdjson (fast path)
+final data = ZikZakJson.decode('{"a": 1, "b": "hello"}');
+print(data['a']); // 1
+
+// JSON5 with comments → auto-detected, json5_plus path
+final config = ZikZakJson.decode('''
+{
+  site: "lowes",          // unquoted key
+  channel: "mobile",
+  timeout: 2000,          // trailing comma
+}
+''');
+print(config['site']); // "lowes"
+
+// Numeric keys → json5_plus handles what simdjson rejects
+final cats = ZikZakJson.decode('{102717: "PADLOCKS"}');
+print(cats['102717']); // "PADLOCKS"
 ```
 
-## Additional information
+### Convenience methods
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```dart
+final map = ZikZakJson.decodeMap('{"a": 1}');     // throws if not object
+final list = ZikZakJson.decodeList('[1, 2, 3]');   // throws if not array
+final str = ZikZakJson.decodeString('"hello"');    // throws if not string
+```
+
+### Detection helpers
+
+```dart
+ZikZakJson.isJson('{"a": 1}');   // true
+ZikZakJson.isJson('hello');      // false
+ZikZakJson.isJson5('{a: 1}');    // true  (valid JSON5, not valid JSON)
+ZikZakJson.isJson5('{"a": 1}');  // false (valid JSON, not JSON5-only)
+```
+
+### Options & engine selection
+
+```dart
+// Force a specific engine
+ZikZakJson.decode(source, options: ZikZakJsonOptions(
+  forceEngine: ZikZakJsonEngine.json5,  // skip simdjson
+));
+
+// Strict mode — throw on first failure, no fallback
+ZikZakJson.decode(source, options: ZikZakJsonOptions(
+  strict: true,
+  forceEngine: ZikZakJsonEngine.simdjson,
+));
+
+// Verbose timing
+ZikZakJson.decode(source, options: ZikZakJsonOptions(verbose: true));
+```
+
+### Path extraction
+
+```dart
+final json = ZikZakJson.decode(largePayload);
+final brand = ZikZakJson.get(json, 'itemList.0.product.brand');
+// → "Master Lock"
+```
+
+## Engine Architecture
+
+```
+Input String
+    │
+    ├── forceEngine == simdjson ───→ simdjson_dart ──→ raw types
+    │
+    ├── forceEngine == json5 ──────→ json5_plus ─────→ toRaw() ──→ raw types
+    │
+    └── auto (default)
+          │
+          ├── fast-path heuristic
+          │     └── JSON5 indicators? ──yes──→ json5_plus
+          │
+          └── try simdjson_dart
+                ├── success ──→ return
+                └── fail ─────→ json5_plus fallback
+```
+
+### Why two engines?
+
+| Engine         | Speed        | Input flexibility                                                 | Use when                                        |
+| -------------- | ------------ | ----------------------------------------------------------------- | ----------------------------------------------- |
+| **simdjson**   | ~3-5x faster | Strict JSON only                                                  | Large payloads, APIs, guaranteed valid JSON     |
+| **json5_plus** | Slower       | JSON + comments + unquoted keys + trailing commas + single quotes | Scraped data, config files, human-written JSON5 |
+
+## Similar packages
+
+- [`json5`](https://pub.dev/packages/json5) — Standard JSON5 parser, rejects numeric object keys (`102717: "val"`)
+- [`json5_plus`](https://pub.dev/packages/json5_plus) — JSON5 parser with typed accessors and `$include` support
+- [`simdjson_dart`](https://pub.dev/packages/simdjson_dart) — Raw simdjson bindings for Dart
+
+---
+
+## Powered by ZikZak AI
+
+zikzak_json is developed by **ZikZak AI** to serve as the JSON backbone for
+high-throughput web scraping, price comparison, and data extraction workloads.
+
+- 🌐 [zikzak.ai](https://zikzak.ai)
+- 🐙 [GitHub](https://github.com/arrrrny/zikzak_json)
+- 🐛 [Issue Tracker](https://github.com/arrrrny/zikzak_json/issues)
+
+### Sponsors
+
+If zikzak_json saves you time or money, consider supporting ZikZak AI's
+open-source work through sponsorship. Your contributions help maintain and
+improve this package and the broader ZikZak ecosystem.
+
+> **❤️ [Sponsor ZikZak AI on GitHub](https://github.com/sponsors/zikzakai)**
+
+---
+
+Licensed under the [Apache License, Version 2.0](LICENSE).
