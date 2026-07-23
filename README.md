@@ -119,10 +119,10 @@ Input String
 
 ### Why two engines?
 
-| Engine         | Speed        | Input flexibility                                                 | Use when                                        |
-| -------------- | ------------ | ----------------------------------------------------------------- | ----------------------------------------------- |
-| **simdjson**   | ~3-5x faster | Strict JSON only                                                  | Large payloads, APIs, guaranteed valid JSON     |
-| **json5_plus** | Slower       | JSON + comments + unquoted keys + trailing commas + single quotes | Scraped data, config files, human-written JSON5 |
+| Engine         | Speed        | Input flexibility                                                 | Use when                                    |
+| -------------- | ------------ | ----------------------------------------------------------------- | ------------------------------------------- |
+| **simdjson**   | ~3-5x faster | Strict JSON only                                                  | Large payloads, APIs, guaranteed valid JSON |
+| **json5_plus** | Slower       | JSON + comments + unquoted keys + trailing commas + single quotes | config files, human-written JSON5           |
 
 ## Similar packages
 
@@ -134,20 +134,22 @@ Input String
 
 ## Powered by ZikZak AI
 
-zikzak_json is developed by **ZikZak AI** to serve as the JSON backbone for
-high-throughput web scraping, price comparison, and data extraction workloads.
+zikzak_json is developed by **ZikZak AI** to serve as the JSON backbone for high-throughput price comparison, and data extraction workloads.
 
-- 🌐 [zikzak.ai](https://zikzak.ai)
+- 🌐 [zuzu.dev](https://zuzu.dev)
 - 🐙 [GitHub](https://github.com/arrrrny/zikzak_json)
 - 🐛 [Issue Tracker](https://github.com/arrrrny/zikzak_json/issues)
 
-### Sponsors
+## Sponsors
 
-If zikzak_json saves you time or money, consider supporting ZikZak AI's
-open-source work through sponsorship. Your contributions help maintain and
-improve this package and the broader ZikZak ecosystem.
+[![https://zuzu.dev](./assets/zikzak-ai.png)](https://zuzu.dev) [![Sponsored by ZikZak AI](https://img.shields.io/badge/Sponsored%20by-ZikZak%20AI-8A2BE2?style=flat-square&logo=heart)](https://zuzu.dev)
 
-> **❤️ [Sponsor ZikZak AI on GitHub](https://github.com/sponsors/zikzakai)**
+Thanks to ZikZak AI for sponsoring this project!
+
+ZikZak AI is an AI-Powered Price Comparison app that you scan barcodes, and discover amazing savings instantly. Your personal shopping assistant that never sleeps.
+
+<a href="https://apps.apple.com/tr/app/zik-zak/id1563425450"><img src="assets/app-store-badge.png" width="160" style="margin-right: 8px;"></a>
+<a href="https://play.google.com/store/apps/details?id=dev.zuzu.zingo"><img src="assets/google-play-badge.png" width="160"></a>
 
 ---
 
