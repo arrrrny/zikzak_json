@@ -1,6 +1,6 @@
 name: zikzak_json
 description: A best-effort JSON parser using simdjson_dart for speed and json5_plus for flexibility.
-version: 0.1.0
+version: 0.2.0
 repository: https://github.com/arrrrny/zikzak_json
 homepage: https://zikzak.ai
 documentation: https://github.com/arrrrny/zikzak_json#readme
@@ -12,9 +12,9 @@ environment:
   sdk: ^3.10.0
 
 dependencies:
-  json_path: ^0.9.0
   json5_plus: ^0.1.1
-  simdjson_dart: ^0.2.5
+  json_path_plus: ^1.0.0
+  simdjson_dart: ^1.1.0
 
 dev_dependencies:
   lints: ^3.0.0

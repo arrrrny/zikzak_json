@@ -1,3 +1,9 @@
+## 0.2.0
+
+- **JSONPath now uses `json_path_plus`** — replaces the old `json_path` 0.9.0 dependency with the in-house `json_path_plus: ^1.0.0`. This brings native `@property`, `@.indexOf()`, `===`, type operators, and zero transitive dependencies. No custom function registration needed for filter expressions.
+- **Updated `simdjson_dart` to `^1.1.0`** — picks up the latest performance improvements and fixes from the upstream PR.
+- Removed vendored `json_path_plus` source in favor of the published pub.dev package.
+
 ## 0.1.0
 
 - Initial release.

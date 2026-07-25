@@ -1,5 +1,5 @@
 import 'package:json5_plus/json5_plus.dart';
-import 'package:json_path/json_path.dart';
+import 'package:json_path_plus/json_path_plus.dart';
 import 'to_raw.dart';
 
 dynamic decodeWithJson5(String source, {List<String>? extractPaths}) {
@@ -24,9 +24,8 @@ dynamic _extractJsonPath(dynamic raw, String path) {
   // Convert simple dot notation to JSONPath syntax if needed
   String normalizedPath = path.startsWith(r'$') ? path : r'$.' + path;
   try {
-    final jp = JsonPath(normalizedPath);
-    final matches = jp.read(raw).toList();
-    return matches.isNotEmpty ? matches.first.value : null;
+    final values = JSONPath.query(normalizedPath, raw, wrap: false);
+    return values.isNotEmpty ? values.first : null;
   } catch (_) {
     return null;
   }
