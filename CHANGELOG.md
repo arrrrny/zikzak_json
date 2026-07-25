@@ -1,3 +1,7 @@
+## 0.2.2
+
+- **Pinned `json_path_plus` to `^1.1.0`** — ensures consumers get the latest fixes (reverse slices, backtick properties, `!@` negation).
+
 ## 0.2.1
 
 - **Updated `json_path_plus` to `^1.1.0`** — picks up the 1.1.0 fixes (reverse slices, backtick properties, `!@` negation, `typeof null`). Zero new dependencies.
