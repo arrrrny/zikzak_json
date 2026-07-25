@@ -1,3 +1,7 @@
+## 0.2.1
+
+- **Updated `json_path_plus` to `^1.1.0`** — picks up the 1.1.0 fixes (reverse slices, backtick properties, `!@` negation, `typeof null`). Zero new dependencies.
+
 ## 0.2.0
 
 - **JSONPath now uses `json_path_plus`** — replaces the old `json_path` 0.9.0 dependency with the in-house `json_path_plus: ^1.0.0`. This brings native `@property`, `@.indexOf()`, `===`, type operators, and zero transitive dependencies. No custom function registration needed for filter expressions.
