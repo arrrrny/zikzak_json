@@ -99,5 +99,18 @@ void main() {
       final result = ZikZakJson.decode("null");
       expect(result, isNull);
     });
+
+    test('16. extractJson on a bare token string returns null, never throws', () {
+      // A plain identifier is neither JSON nor JSON5 — extraction is
+      // best-effort, so undecodable strings yield null instead of the
+      // FormatException the engines raise.
+      expect(ZikZakJson.extractJson('Eg0I0bZlGQAAAAAAABBA'), isNull);
+      expect(ZikZakJson.extractJson('not json at all'), isNull);
+      // Decodable strings still decode.
+      expect(ZikZakJson.extractJson('{"a": 1}'), isA<Map>());
+      expect(ZikZakJson.extractJson('[1, 2]'), isA<List>());
+      // Passthrough shapes are untouched.
+      expect(ZikZakJson.extractJson(42), 42);
+    });
   });
 }

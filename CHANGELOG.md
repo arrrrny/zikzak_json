@@ -1,3 +1,8 @@
+## 0.2.3
+
+- **`extractJson` no longer throws on undecodable strings** — a bare token, ID, or page fragment (neither JSON nor JSON5) now yields `null` instead of the engines' `FormatException`. Extraction is best-effort by contract; `decode` keeps throwing for callers that want strictness.
+- **Raised dependency floors** — `json5_plus ^0.1.8`, `simdjson_dart ^1.6.1` (both already allowed by the previous caret ranges; now required).
+
 ## 0.2.2
 
 - **Pinned `json_path_plus` to `^1.1.0`** — ensures consumers get the latest fixes (reverse slices, backtick properties, `!@` negation).

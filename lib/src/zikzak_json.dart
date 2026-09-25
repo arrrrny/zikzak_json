@@ -114,12 +114,21 @@ class ZikZakJson {
   /// Handles:
   /// - `Json5` objects → recursively converts to raw Map
   /// - `Map` / `List` → returned as-is (already raw)
-  /// - `String` → decoded via [decode] (supports JSON + JSON5)
+  /// - `String` → decoded via [decode] (supports JSON + JSON5); a string
+  ///   that decodes to neither (a bare token, an ID, a page fragment)
+  ///   yields `null` — extraction is best-effort, never a validator.
+  ///   Use [decode] directly when malformed input should throw.
   /// - Everything else → returned as-is (passthrough)
   static Object? extractJson(Object? obj) {
     if (obj is Json5) return toRaw(obj);
     if (obj is Map || obj is List) return obj;
-    if (obj is String) return decode(obj);
+    if (obj is String) {
+      try {
+        return decode(obj);
+      } catch (_) {
+        return null;
+      }
+    }
     return obj;
   }
 
