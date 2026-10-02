@@ -8,3 +8,6 @@ export 'src/engine.dart' show ZikZakJsonEngine, ZikZakJsonOptions;
 
 /// Low-level Json5→Map converter (also accessible via ZikZakJson.toRaw).
 export 'src/to_raw.dart' show toRaw;
+
+/// JSONPath-Plus query engine.
+export 'package:json_path_plus/json_path_plus.dart';

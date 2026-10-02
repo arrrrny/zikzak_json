@@ -112,5 +112,13 @@ void main() {
       // Passthrough shapes are untouched.
       expect(ZikZakJson.extractJson(42), 42);
     });
+
+    test('17. json_path_plus is re-exported by the single entry point', () {
+      // No `import 'package:json_path_plus/...'` in this file on purpose:
+      // consumers must get JSONPath through zikzak_json alone.
+      final json = ZikZakJson.decode('{"itemList":[{"brand":"Master Lock"}]}');
+      final values = JSONPath.query(r'$.itemList[*].brand', json, wrap: false);
+      expect(values, ['Master Lock']);
+    });
   });
 }
