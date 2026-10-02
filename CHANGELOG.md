@@ -1,3 +1,7 @@
+## 0.3.0
+
+- **Re-exported `json_path_plus` from `zikzak_json`** — `import 'package:zikzak_json/zikzak_json.dart';` is now the single entry point for JSON decoding and JSONPath querying (closes #1). `JSONPath`, `JsonPathMatch`, `JsonPathOptions`, and `SafeEval` join the public API, making `json_path_plus: ^1.1.0` part of the public contract.
+
 ## 0.2.3
 
 - **`extractJson` no longer throws on undecodable strings** — a bare token, ID, or page fragment (neither JSON nor JSON5) now yields `null` instead of the engines' `FormatException`. Extraction is best-effort by contract; `decode` keeps throwing for callers that want strictness.

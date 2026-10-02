@@ -98,6 +98,22 @@ final brand = ZikZakJson.get(json, 'itemList.0.product.brand');
 // → "Master Lock"
 ```
 
+### JSONPath queries
+
+`json_path_plus` is re-exported, so the same single import covers decoding and
+querying — no second dependency needed:
+
+```dart
+import 'package:zikzak_json/zikzak_json.dart';
+
+final json = ZikZakJson.decode('{"itemList":[{"brand":"Master Lock"}]}');
+final brands = JSONPath.query(r'$.itemList[*].brand', json, wrap: false);
+// → ["Master Lock"]
+```
+
+Full JSONPath-Plus syntax (filters, native `@property` accessors, slicing) is
+documented in [`json_path_plus`](https://pub.dev/packages/json_path_plus).
+
 ## Engine Architecture
 
 ```
