@@ -1,4 +1,4 @@
-library zikzak_json;
+library;
 
 /// Core: decode, encode, toRaw, extractJson, typed convenience, helpers.
 export 'src/zikzak_json.dart';

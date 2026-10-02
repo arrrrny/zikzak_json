@@ -15,7 +15,9 @@ bool hasJson5Indicators(String source) {
   if (RegExp(r',\s*\]').hasMatch(chunk)) return true;
 
   // Unquoted/Numeric keys: { key: or { 102717:
-  if (RegExp(r'[{,]\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*:').hasMatch(chunk)) return true;
+  if (RegExp(r'[{,]\s*[a-zA-Z_$][a-zA-Z0-9_$]*\s*:').hasMatch(chunk)) {
+    return true;
+  }
   if (RegExp(r'[{,]\s*\d+\s*:').hasMatch(chunk)) return true;
 
   return false;

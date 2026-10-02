@@ -98,6 +98,36 @@ final brand = ZikZakJson.get(json, 'itemList.0.product.brand');
 // → "Master Lock"
 ```
 
+To skip building the full object tree, pass `extractPaths` instead. Paths accept
+plain dot notation, an explicit RFC 6901 pointer, or a full JSONPath
+expression — and resolve identically whichever engine decoded the document:
+
+```dart
+ZikZakJson.decode(
+  payload,
+  options: ZikZakJsonOptions(extractPaths: [
+    'itemList.0.product.brand',            // dot notation
+    r'$.itemList[?@.price > 10].brand',    // JSONPath filter
+  ]),
+);
+// → {"itemList.0.product.brand": "Master Lock",
+//    "$.itemList[?@.price > 10].brand": "Master Lock"}
+```
+
+Plain dot and pointer paths are served straight off the simdjson document
+without materialising the rest of it. JSONPath expressions cannot be, so they
+walk the whole tree — mixing the two kinds in one call gives up that
+optimisation. Paths that match nothing yield `null`.
+
+One limitation: dot notation cannot address a key containing a literal `.`,
+since the dot reads as a nesting step. Use bracket quoting for those — it works
+identically on both engines:
+
+```dart
+$.meta["a.b"]   // the key "a.b"
+$.meta[]        // an empty key
+```
+
 ### JSONPath queries
 
 `json_path_plus` is re-exported, so the same single import covers decoding and
@@ -111,8 +141,16 @@ final brands = JSONPath.query(r'$.itemList[*].brand', json, wrap: false);
 // → ["Master Lock"]
 ```
 
-Full JSONPath-Plus syntax (filters, native `@property` accessors, slicing) is
-documented in [`json_path_plus`](https://pub.dev/packages/json_path_plus).
+On top of JSONPath-Plus syntax (filters, native `@property` accessors,
+slicing) you get RFC 9535 filter selectors — bare `[?@.price > 10]` without
+parentheses, `match()` / `search()` / `key()` built-ins, `/regex/` literals,
+and a working `@root`. Full syntax is documented in
+[`json_path_plus`](https://pub.dev/packages/json_path_plus).
+
+> **Upgrading to 0.3.0:** `json_path_plus` 2.0.0 removed the public
+> `JSONPath.cache` map. Because zikzak_json re-exports the engine, use
+> `JSONPath.cacheSize`, `JSONPath.isCached(path)` and `JSONPath.clearCache()`
+> instead.
 
 ## Engine Architecture
 
