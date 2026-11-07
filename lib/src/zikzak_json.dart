@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:json5_plus/json5_plus.dart';
+import 'vendor/json5_plus/json5_plus.dart';
 import 'engine.dart';
 import 'fast_path.dart';
 import 'simdjson_engine.dart';

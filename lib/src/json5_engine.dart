@@ -1,4 +1,4 @@
-import 'package:json5_plus/json5_plus.dart';
+import 'vendor/json5_plus/json5_plus.dart';
 import 'extract.dart';
 import 'to_raw.dart';
 

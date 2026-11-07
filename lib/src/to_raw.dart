@@ -1,4 +1,4 @@
-import 'package:json5_plus/json5_plus.dart';
+import 'vendor/json5_plus/json5_plus.dart';
 
 /// Recursively un-wraps `Json5` wrapper objects into pure Dart types.
 dynamic toRaw(dynamic obj) {
