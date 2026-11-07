@@ -243,7 +243,8 @@ class Json5 with TypedAccessorMixin {
       readOnly: readOnly,
       sortedKeys: sortedKeys ?? json2.sortedKeys,
     );
-    for (final MapEntry<String, dynamic> entry in json2._keyToValueMap.entries) {
+    for (final MapEntry<String, dynamic> entry
+        in json2._keyToValueMap.entries) {
       if (json1._keyToValueMap[entry.key] != entry.value) {
         result.set(entry.key, _copyValue(entry.value));
       }
@@ -344,7 +345,8 @@ class Json5 with TypedAccessorMixin {
     bool readOnly = false,
     bool? sortedKeys,
   }) {
-    final bool effectiveAllowBlank = allowBlankString ?? defaultAllowBlankString;
+    final bool effectiveAllowBlank =
+        allowBlankString ?? defaultAllowBlankString;
     if (jsonString.trim().isEmpty) {
       if (effectiveAllowBlank) {
         return Json5(
@@ -382,7 +384,9 @@ class Json5 with TypedAccessorMixin {
                caseSensitiveKeys
                    ? (String key1, String key2) => key1.compareTo(key2)
                    : (String key1, String key2) {
-                       final int compareResult = key1.toLowerCase().compareTo(key2.toLowerCase());
+                       final int compareResult = key1.toLowerCase().compareTo(
+                         key2.toLowerCase(),
+                       );
                        return compareResult == 0 ? 0 : compareResult;
                      },
                (Object? potentialKey) => potentialKey is String,
@@ -455,21 +459,29 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of [bool] values for [key].
-  List<bool> asBoolList(final dynamic key) =>
-      _getList<bool>(key, emptyBoolList, (source, result) => _convertBools(source, result.add));
+  List<bool> asBoolList(final dynamic key) => _getList<bool>(
+    key,
+    emptyBoolList,
+    (source, result) => _convertBools(source, result.add),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of [bool] values for [key], or `null` if [key] is missing or null.
-  List<bool>? asBoolListOrNull(final dynamic key) => containsKey(key) ? asBoolList(key) : null;
+  List<bool>? asBoolListOrNull(final dynamic key) =>
+      containsKey(key) ? asBoolList(key) : null;
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [bool] values for [key].
-  Set<bool> asBoolSet(final dynamic key) =>
-      _getSet<bool>(key, emptyBoolSet, (source, result) => _convertBools(source, result.add));
+  Set<bool> asBoolSet(final dynamic key) => _getSet<bool>(
+    key,
+    emptyBoolSet,
+    (source, result) => _convertBools(source, result.add),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [bool] values for [key], or `null` if [key] is missing or null.
-  Set<bool>? asBoolSetOrNull(final dynamic key) => containsKey(key) ? asBoolSet(key) : null;
+  Set<bool>? asBoolSetOrNull(final dynamic key) =>
+      containsKey(key) ? asBoolSet(key) : null;
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of [DateTime] values for [key].
@@ -512,17 +524,24 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [double] values for [key].
-  Set<double> asDoubleSet(final dynamic key) =>
-      _getSet<double>(key, emptyDoubleSet, (source, result) => _convertDoubles(source, result.add));
+  Set<double> asDoubleSet(final dynamic key) => _getSet<double>(
+    key,
+    emptyDoubleSet,
+    (source, result) => _convertDoubles(source, result.add),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [double] values for [key], or `null` if [key] is missing or null.
-  Set<double>? asDoubleSetOrNull(final dynamic key) => containsKey(key) ? asDoubleSet(key) : null;
+  Set<double>? asDoubleSetOrNull(final dynamic key) =>
+      containsKey(key) ? asDoubleSet(key) : null;
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of values for [key].
-  List<dynamic> asDynamicList(final dynamic key) =>
-      _getList<dynamic>(key, emptyDynamicList, (source, result) => result.addAll(source));
+  List<dynamic> asDynamicList(final dynamic key) => _getList<dynamic>(
+    key,
+    emptyDynamicList,
+    (source, result) => result.addAll(source),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of values for [key], or `null` if [key] is missing or null.
@@ -531,8 +550,11 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of values for [key].
-  Set<dynamic> asDynamicSet(final dynamic key) =>
-      _getSet<dynamic>(key, emptyDynamicSet, (source, result) => result.addAll(source));
+  Set<dynamic> asDynamicSet(final dynamic key) => _getSet<dynamic>(
+    key,
+    emptyDynamicSet,
+    (source, result) => result.addAll(source),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of values for [key], or `null` if [key] is missing or null.
@@ -541,34 +563,47 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of [int] values for [key].
-  List<int> asIntList(final dynamic key) =>
-      _getList<int>(key, emptyIntList, (source, result) => _convertInts(source, result.add));
+  List<int> asIntList(final dynamic key) => _getList<int>(
+    key,
+    emptyIntList,
+    (source, result) => _convertInts(source, result.add),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of [int] values for [key], or `null` if [key] is missing or null.
-  List<int>? asIntListOrNull(final dynamic key) => containsKey(key) ? asIntList(key) : null;
+  List<int>? asIntListOrNull(final dynamic key) =>
+      containsKey(key) ? asIntList(key) : null;
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [int] values for [key].
-  Set<int> asIntSet(final dynamic key) =>
-      _getSet<int>(key, emptyIntSet, (source, result) => _convertInts(source, result.add));
+  Set<int> asIntSet(final dynamic key) => _getSet<int>(
+    key,
+    emptyIntSet,
+    (source, result) => _convertInts(source, result.add),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [int] values for [key], or `null` if [key] is missing or null.
-  Set<int>? asIntSetOrNull(final dynamic key) => containsKey(key) ? asIntSet(key) : null;
+  Set<int>? asIntSetOrNull(final dynamic key) =>
+      containsKey(key) ? asIntSet(key) : null;
 
   //------------------------------------------------------------------------------------------------
   /// Returns the [Json5] object for [key].
-  Json5 asJson(final dynamic key) => _keyToValueMap[_getKey(key)] as Json5? ?? emptyJson;
+  Json5 asJson(final dynamic key) =>
+      _keyToValueMap[_getKey(key)] as Json5? ?? emptyJson;
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of [Json5] values for [key].
-  List<Json5> asJsonList(final dynamic key) =>
-      _getList<Json5>(key, emptyJsonList, (source, result) => _convertJson5s(source, result.add));
+  List<Json5> asJsonList(final dynamic key) => _getList<Json5>(
+    key,
+    emptyJsonList,
+    (source, result) => _convertJson5s(source, result.add),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of [Json5] values for [key], or `null` if [key] is missing or null.
-  List<Json5>? asJsonListOrNull(final dynamic key) => containsKey(key) ? asJsonList(key) : null;
+  List<Json5>? asJsonListOrNull(final dynamic key) =>
+      containsKey(key) ? asJsonList(key) : null;
 
   //------------------------------------------------------------------------------------------------
   /// Returns the [Json5] object for [key], or `null` if [key] is missing or null.
@@ -577,12 +612,16 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [Json5] values for [key].
-  Set<Json5> asJsonSet(final dynamic key) =>
-      _getSet<Json5>(key, emptyJsonSet, (source, result) => _convertJson5s(source, result.add));
+  Set<Json5> asJsonSet(final dynamic key) => _getSet<Json5>(
+    key,
+    emptyJsonSet,
+    (source, result) => _convertJson5s(source, result.add),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [Json5] values for [key], or `null` if [key] is missing or null.
-  Set<Json5>? asJsonSetOrNull(final dynamic key) => containsKey(key) ? asJsonSet(key) : null;
+  Set<Json5>? asJsonSetOrNull(final dynamic key) =>
+      containsKey(key) ? asJsonSet(key) : null;
 
   //------------------------------------------------------------------------------------------------
   /// Returns the list of [String] values for [key].
@@ -599,12 +638,16 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [String] values for [key].
-  Set<String> asStringSet(final dynamic key) =>
-      _getSet<String>(key, emptyStringSet, (source, result) => _convertStrings(source, result.add));
+  Set<String> asStringSet(final dynamic key) => _getSet<String>(
+    key,
+    emptyStringSet,
+    (source, result) => _convertStrings(source, result.add),
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the set of [String] values for [key], or `null` if [key] is missing or null.
-  Set<String>? asStringSetOrNull(final dynamic key) => containsKey(key) ? asStringSet(key) : null;
+  Set<String>? asStringSetOrNull(final dynamic key) =>
+      containsKey(key) ? asStringSet(key) : null;
 
   //------------------------------------------------------------------------------------------------
   @override
@@ -632,7 +675,10 @@ class Json5 with TypedAccessorMixin {
   }
 
   //------------------------------------------------------------------------------------------------
-  void _convertDateTimes(Iterable<dynamic> source, void Function(DateTime) add) {
+  void _convertDateTimes(
+    Iterable<dynamic> source,
+    void Function(DateTime) add,
+  ) {
     for (final Object? listItem in source) {
       if (listItem is DateTime) {
         add(listItem);
@@ -693,7 +739,11 @@ class Json5 with TypedAccessorMixin {
         iterable.remove(item);
         if (item is Map<dynamic, dynamic>) {
           iterable.add(
-            Json5.fromMap(item, caseSensitiveKeys: caseSensitiveKeys, sortedKeys: sortedKeys),
+            Json5.fromMap(
+              item,
+              caseSensitiveKeys: caseSensitiveKeys,
+              sortedKeys: sortedKeys,
+            ),
           );
         } else if (item is Iterable<dynamic>) {
           _convertIterable(item);
@@ -1004,7 +1054,8 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Returns true if this Json5 object is empty.
-  bool get isEmpty => _ephemeralKeys.isEmpty ? _keyToValueMap.isEmpty : keys.isEmpty;
+  bool get isEmpty =>
+      _ephemeralKeys.isEmpty ? _keyToValueMap.isEmpty : keys.isEmpty;
 
   //------------------------------------------------------------------------------------------------
   /// Returns true if this Json5 object is not empty.
@@ -1042,7 +1093,9 @@ class Json5 with TypedAccessorMixin {
       return readOnly ? UnmodifiableListView<ElementType>(value) : value;
     }
     if (value != null) {
-      final Iterable<dynamic> source = value is Iterable<dynamic> ? value : <dynamic>[value];
+      final Iterable<dynamic> source = value is Iterable<dynamic>
+          ? value
+          : <dynamic>[value];
       result = <ElementType>[];
       converter(source, result);
       if (!readOnly) {
@@ -1073,7 +1126,9 @@ class Json5 with TypedAccessorMixin {
       return readOnly ? UnmodifiableSetView<ElementType>(value) : value;
     }
     if (value != null) {
-      final Iterable<dynamic> source = value is Iterable<dynamic> ? value : <dynamic>[value];
+      final Iterable<dynamic> source = value is Iterable<dynamic>
+          ? value
+          : <dynamic>[value];
       result = <ElementType>{};
       converter(source, result);
       if (!readOnly) {
@@ -1145,7 +1200,9 @@ class Json5 with TypedAccessorMixin {
   //------------------------------------------------------------------------------------------------
   /// Removes the set entry for [key] and returns a detached set of [bool] elements, or `null` if [key] is missing or null.
   Set<bool>? removeBoolSetOrNull(final dynamic key) {
-    final Set<bool>? result = asBoolSetOrNull(key) == null ? null : Set<bool>.of(asBoolSet(key));
+    final Set<bool>? result = asBoolSetOrNull(key) == null
+        ? null
+        : Set<bool>.of(asBoolSet(key));
     remove(key);
     return result;
   }
@@ -1204,7 +1261,10 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Removes the entry for [key] and returns its UTC date/time representation.
-  DateTime removeDateTimeUtc(final dynamic key, [final DateTime? defaultValue]) {
+  DateTime removeDateTimeUtc(
+    final dynamic key, [
+    final DateTime? defaultValue,
+  ]) {
     final DateTime result = asDateTimeUtc(key, defaultValue);
     remove(key);
     return result;
@@ -1325,7 +1385,9 @@ class Json5 with TypedAccessorMixin {
   //------------------------------------------------------------------------------------------------
   /// Removes the list entry for [key] and returns a detached list of [int] elements, or `null` if [key] is missing or null.
   List<int>? removeIntListOrNull(final dynamic key) {
-    final List<int>? result = asIntListOrNull(key) == null ? null : List<int>.of(asIntList(key));
+    final List<int>? result = asIntListOrNull(key) == null
+        ? null
+        : List<int>.of(asIntList(key));
     remove(key);
     return result;
   }
@@ -1349,7 +1411,9 @@ class Json5 with TypedAccessorMixin {
   //------------------------------------------------------------------------------------------------
   /// Removes the set entry for [key] and returns a detached set of [int] elements, or `null` if [key] is missing or null.
   Set<int>? removeIntSetOrNull(final dynamic key) {
-    final Set<int>? result = asIntSetOrNull(key) == null ? null : Set<int>.of(asIntSet(key));
+    final Set<int>? result = asIntSetOrNull(key) == null
+        ? null
+        : Set<int>.of(asIntSet(key));
     remove(key);
     return result;
   }
@@ -1391,7 +1455,9 @@ class Json5 with TypedAccessorMixin {
   //------------------------------------------------------------------------------------------------
   /// Removes the set entry for [key] and returns a detached set of [Json5] elements, or `null` if [key] is missing or null.
   Set<Json5>? removeJsonSetOrNull(final dynamic key) {
-    final Set<Json5>? result = asJsonSetOrNull(key) == null ? null : Set<Json5>.of(asJsonSet(key));
+    final Set<Json5>? result = asJsonSetOrNull(key) == null
+        ? null
+        : Set<Json5>.of(asJsonSet(key));
     remove(key);
     return result;
   }
@@ -1475,7 +1541,8 @@ class Json5 with TypedAccessorMixin {
   @internal
   /// Internal use.
   // ignore: avoid_setters_without_getters
-  set commentRegistry(Json5CommentRegistry commentRegistry) => _commentRegistry = commentRegistry;
+  set commentRegistry(Json5CommentRegistry commentRegistry) =>
+      _commentRegistry = commentRegistry;
 
   //------------------------------------------------------------------------------------------------
   /// Copies entries from [copyFromJson] into this object.
@@ -1483,7 +1550,8 @@ class Json5 with TypedAccessorMixin {
   void setFromJson(final Json5 copyFromJson) {
     assert(!readOnly, "Cannot add entries to a read-only JSON");
     _ephemeralKeys.addAll(copyFromJson._ephemeralKeys);
-    for (final MapEntry<String, dynamic> newEntry in copyFromJson._keyToValueMap.entries) {
+    for (final MapEntry<String, dynamic> newEntry
+        in copyFromJson._keyToValueMap.entries) {
       _keyToValueMap[newEntry.key] = _copyValue(newEntry.value);
     }
   }
@@ -1499,7 +1567,10 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Updates this Json5 object with the entries from [keyList] and [valueList].
-  void setFromKeyAndValueLists(List<String>? keyList, List<dynamic>? valueList) {
+  void setFromKeyAndValueLists(
+    List<String>? keyList,
+    List<dynamic>? valueList,
+  ) {
     if (keyList == null || valueList == null) {
       return;
     }
@@ -1513,7 +1584,10 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Updates this Json5 object with the entries from [keyToIndexMap] and [valueList].
-  void setFromKeyToIndexAndValueList(Map<String, int>? keyToIndexMap, List<dynamic>? valueList) {
+  void setFromKeyToIndexAndValueList(
+    Map<String, int>? keyToIndexMap,
+    List<dynamic>? valueList,
+  ) {
     if (keyToIndexMap == null || valueList == null) {
       return;
     }
@@ -1524,7 +1598,11 @@ class Json5 with TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Sets the value for [key] if the [newValue] has changed for the [oldJson] value.
-  void setIfChanged(final dynamic key, final Json5 oldJson, final dynamic newValue) {
+  void setIfChanged(
+    final dynamic key,
+    final Json5 oldJson,
+    final dynamic newValue,
+  ) {
     String localKey = _getKey(key);
     if (newValue != oldJson._keyToValueMap[localKey]) {
       set(localKey, newValue);
@@ -1551,14 +1629,23 @@ class Json5 with TypedAccessorMixin {
   /// equal values. For Json5 objects, equality is determined by having the same keys with equal
   /// values.
   /// For other types, equality is determined by the == operator.
-  void setIfNotEqual(dynamic key, {required dynamic newValue, required dynamic oldValue}) {
+  void setIfNotEqual(
+    dynamic key, {
+    required dynamic newValue,
+    required dynamic oldValue,
+  }) {
     bool isEqual(dynamic valueA, dynamic valueB) {
       if (identical(valueA, valueB)) return true;
       if (valueA is Json5 && valueB is Json5) {
-        if (valueA._keyToValueMap.length != valueB._keyToValueMap.length) return false;
+        if (valueA._keyToValueMap.length != valueB._keyToValueMap.length)
+          return false;
         for (final String mapKey in valueA._keyToValueMap.keys) {
           if (!valueB._keyToValueMap.containsKey(mapKey)) return false;
-          if (!isEqual(valueA._keyToValueMap[mapKey], valueB._keyToValueMap[mapKey])) return false;
+          if (!isEqual(
+            valueA._keyToValueMap[mapKey],
+            valueB._keyToValueMap[mapKey],
+          ))
+            return false;
         }
         return true;
       }
@@ -1699,7 +1786,11 @@ class Json5 with TypedAccessorMixin {
     bool skipPrecedingNewline = false,
   }) {
     if (!includeComments || registry == null) return;
-    final List<Json5Comment>? comments = registry.getComments(container, index, location);
+    final List<Json5Comment>? comments = registry.getComments(
+      container,
+      index,
+      location,
+    );
     if (comments == null) return;
     final String indent = "  " * level;
     for (int i = 0; i < comments.length; ++i) {

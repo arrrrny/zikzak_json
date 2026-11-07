@@ -8,7 +8,16 @@ class Json5Util {
 
   //------------------------------------------------------------------------------------------------
   Json5Util._()
-    : _builtinTypeSet = Set.unmodifiable([bool, double, int, List, Map, Null, Set, String]);
+    : _builtinTypeSet = Set.unmodifiable([
+        bool,
+        double,
+        int,
+        List,
+        Map,
+        Null,
+        Set,
+        String,
+      ]);
 
   //------------------------------------------------------------------------------------------------
   /// Returns true if [value] is an enum entry.
@@ -19,7 +28,8 @@ class Json5Util {
     }
     String valueString = value.toString();
     int dotIndex = valueString.indexOf(".");
-    return dotIndex > 0 && type.toString() == valueString.substring(0, dotIndex);
+    return dotIndex > 0 &&
+        type.toString() == valueString.substring(0, dotIndex);
   }
 
   //------------------------------------------------------------------------------------------------

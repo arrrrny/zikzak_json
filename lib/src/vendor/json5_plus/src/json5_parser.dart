@@ -123,7 +123,8 @@ class Json5Parser {
        _useKeyCache = jsonString.length > 16_384;
 
   //------------------------------------------------------------------------------------------------
-  Never _error(String message) => throw FormatException("$message at line $_lineNumber, pos $_pos");
+  Never _error(String message) =>
+      throw FormatException("$message at line $_lineNumber, pos $_pos");
 
   //------------------------------------------------------------------------------------------------
   Json5 _parse() {
@@ -135,7 +136,8 @@ class Json5Parser {
         index: 0,
       );
     }
-    if (_pos >= _jsonStringLength || _jsonString.codeUnitAt(_pos) != 123 /* { */ ) {
+    if (_pos >= _jsonStringLength ||
+        _jsonString.codeUnitAt(_pos) != 123 /* { */ ) {
       _error("Source does not start with a JSON5 object");
     }
     result = _parseObject();
@@ -216,7 +218,8 @@ class Json5Parser {
           index: valueList.length,
         );
       }
-      if (_pos < _jsonStringLength && _jsonString.codeUnitAt(_pos) == 44 /* , */ ) {
+      if (_pos < _jsonStringLength &&
+          _jsonString.codeUnitAt(_pos) == 44 /* , */ ) {
         ++_pos;
         if (_skipWhitespace()) {
           _skipWhitespaceAndRegisterComments(
@@ -225,7 +228,8 @@ class Json5Parser {
             index: valueList.length,
           );
         }
-      } else if (_pos < _jsonStringLength && _jsonString.codeUnitAt(_pos) != 93 /* ] */ ) {
+      } else if (_pos < _jsonStringLength &&
+          _jsonString.codeUnitAt(_pos) != 93 /* ] */ ) {
         _error("Expected ',' or ']' after array element");
       }
     }
@@ -236,7 +240,8 @@ class Json5Parser {
         index: valueList.length,
       );
     }
-    if (_pos >= _jsonStringLength || _jsonString.codeUnitAt(_pos) != 93 /* ] */ ) {
+    if (_pos >= _jsonStringLength ||
+        _jsonString.codeUnitAt(_pos) != 93 /* ] */ ) {
       _error("Expected ']' at end of array");
     }
     ++_pos;
@@ -264,10 +269,12 @@ class Json5Parser {
       final String includePath = _parseString(codeUnit);
       Map<String, dynamic>? includeParams;
       _skipWhitespace();
-      if (_pos < _jsonStringLength && _jsonString.codeUnitAt(_pos) == 44 /* , */ ) {
+      if (_pos < _jsonStringLength &&
+          _jsonString.codeUnitAt(_pos) == 44 /* , */ ) {
         ++_pos;
         _skipWhitespace();
-        if (_pos < _jsonStringLength && _jsonString.codeUnitAt(_pos) == 123 /* { */ ) {
+        if (_pos < _jsonStringLength &&
+            _jsonString.codeUnitAt(_pos) == 123 /* { */ ) {
           final Json5 parsedObject = _parseObject();
           includeParams = {};
           for (final String key in parsedObject.keys) {
@@ -275,19 +282,24 @@ class Json5Parser {
           }
         }
         _skipWhitespace();
-        if (_pos < _jsonStringLength && _jsonString.codeUnitAt(_pos) == 44 /* , */ ) {
+        if (_pos < _jsonStringLength &&
+            _jsonString.codeUnitAt(_pos) == 44 /* , */ ) {
           ++_pos; // skip optional trailing comma
           _skipWhitespace();
         }
       }
-      if (_pos >= _jsonStringLength || _jsonString.codeUnitAt(_pos) != 41 /* ) */ ) {
+      if (_pos >= _jsonStringLength ||
+          _jsonString.codeUnitAt(_pos) != 41 /* ) */ ) {
         _error("Expected ')' after function arguments");
       }
       ++_pos;
       int pairStart = startPos - 1;
       while (pairStart >= 0) {
         final int c = _jsonString.codeUnitAt(pairStart);
-        if (c == 10 /* \n */ || c == 44 /* , */ || c == 123 /* { */ || c == 91 /* [ */ ) {
+        if (c == 10 /* \n */ ||
+            c == 44 /* , */ ||
+            c == 123 /* { */ ||
+            c == 91 /* [ */ ) {
           break;
         }
         pairStart--;
@@ -317,7 +329,8 @@ class Json5Parser {
       }
       if (baseIndent > 0) {
         for (int i = 0; i < lines.length; i++) {
-          if (lines[i].length >= baseIndent && lines[i].substring(0, baseIndent).trim().isEmpty) {
+          if (lines[i].length >= baseIndent &&
+              lines[i].substring(0, baseIndent).trim().isEmpty) {
             lines[i] = lines[i].substring(baseIndent);
           }
         }
@@ -329,7 +342,11 @@ class Json5Parser {
       _commentRegistry ??= Json5CommentRegistry();
       for (final String line in lines) {
         _commentRegistry!.add(
-          comment: Json5Comment("// $line", blockComment: false, precededByNewline: true),
+          comment: Json5Comment(
+            "// $line",
+            blockComment: false,
+            precededByNewline: true,
+          ),
           commentLocation: targetLocation,
           container: container,
           index: targetIndex,
@@ -400,7 +417,8 @@ class Json5Parser {
           index: keyIndex,
         );
       }
-      if (_pos < _jsonStringLength && _jsonString.codeUnitAt(_pos) == 58 /* : */ ) {
+      if (_pos < _jsonStringLength &&
+          _jsonString.codeUnitAt(_pos) == 58 /* : */ ) {
         ++_pos;
         if (_skipWhitespace()) {
           _skipWhitespaceAndRegisterComments(
@@ -427,7 +445,8 @@ class Json5Parser {
           index: keyIndex,
         );
       }
-      if (_pos < _jsonStringLength && _jsonString.codeUnitAt(_pos) == 44 /* , */ ) {
+      if (_pos < _jsonStringLength &&
+          _jsonString.codeUnitAt(_pos) == 44 /* , */ ) {
         ++_pos;
         if (_skipWhitespace()) {
           _skipWhitespaceAndRegisterComments(
@@ -436,7 +455,8 @@ class Json5Parser {
             index: keyIndex,
           );
         }
-      } else if (_pos < _jsonStringLength && _jsonString.codeUnitAt(_pos) != 125 /* } */ ) {
+      } else if (_pos < _jsonStringLength &&
+          _jsonString.codeUnitAt(_pos) != 125 /* } */ ) {
         _error("Expected ',' or '}' after object property");
       }
       ++keyIndex;
@@ -448,7 +468,8 @@ class Json5Parser {
         index: keyIndex,
       );
     }
-    if (_pos >= _jsonStringLength || _jsonString.codeUnitAt(_pos) != 125 /* "}" */ ) {
+    if (_pos >= _jsonStringLength ||
+        _jsonString.codeUnitAt(_pos) != 125 /* "}" */ ) {
       _error("Expected '}'");
     }
     ++_pos;
@@ -475,13 +496,14 @@ class Json5Parser {
   }) {
     final int start = _pos;
     final int firstChar = _jsonString.codeUnitAt(_pos);
-    final ({bool matched, dynamic value}) result = _parsePrimitiveBooleansNullOrInclude(
-      commentLocation: commentLocation,
-      container: container,
-      firstChar: firstChar,
-      index: index,
-      start: start,
-    );
+    final ({bool matched, dynamic value}) result =
+        _parsePrimitiveBooleansNullOrInclude(
+          commentLocation: commentLocation,
+          container: container,
+          firstChar: firstChar,
+          index: index,
+          start: start,
+        );
     if (result.matched) {
       return result.value;
     }
@@ -536,7 +558,8 @@ class Json5Parser {
     if (firstChar == 45 /* - */ || firstChar == 43 /* + */ ) {
       firstDigitPos++;
     }
-    if (i - firstDigitPos > 1 && _jsonString.codeUnitAt(firstDigitPos) == 48 /* 0 */ ) {
+    if (i - firstDigitPos > 1 &&
+        _jsonString.codeUnitAt(firstDigitPos) == 48 /* 0 */ ) {
       final int nextChar = _jsonString.codeUnitAt(firstDigitPos + 1);
       if (nextChar >= 48 && nextChar <= 57) {
         _pos = start;
@@ -601,29 +624,36 @@ class Json5Parser {
   }) {
     if (firstChar == 116 /* t */ && _jsonString.startsWith("true", _pos)) {
       final int nextPos = _pos + 4;
-      if (nextPos >= _jsonStringLength || _isPrimitiveBoundary(_jsonString.codeUnitAt(nextPos))) {
+      if (nextPos >= _jsonStringLength ||
+          _isPrimitiveBoundary(_jsonString.codeUnitAt(nextPos))) {
         _pos = nextPos;
         return (matched: true, value: true);
       }
-    } else if (firstChar == 102 /* f */ && _jsonString.startsWith("false", _pos)) {
+    } else if (firstChar == 102 /* f */ &&
+        _jsonString.startsWith("false", _pos)) {
       final int nextPos = _pos + 5;
-      if (nextPos >= _jsonStringLength || _isPrimitiveBoundary(_jsonString.codeUnitAt(nextPos))) {
+      if (nextPos >= _jsonStringLength ||
+          _isPrimitiveBoundary(_jsonString.codeUnitAt(nextPos))) {
         _pos = nextPos;
         return (matched: true, value: false);
       }
-    } else if (firstChar == 110 /* n */ && _jsonString.startsWith("null", _pos)) {
+    } else if (firstChar == 110 /* n */ &&
+        _jsonString.startsWith("null", _pos)) {
       final int nextPos = _pos + 4;
-      if (nextPos >= _jsonStringLength || _isPrimitiveBoundary(_jsonString.codeUnitAt(nextPos))) {
+      if (nextPos >= _jsonStringLength ||
+          _isPrimitiveBoundary(_jsonString.codeUnitAt(nextPos))) {
         _pos = nextPos;
         return (matched: true, value: null);
       }
-    } else if (firstChar == 36 /* $ */ && _jsonString.startsWith(r"$include", _pos)) {
+    } else if (firstChar == 36 /* $ */ &&
+        _jsonString.startsWith(r"$include", _pos)) {
       final int savedPos = _pos;
       final int savedLine = _lineNumber;
       final bool savedNewline = _newlineFoundInWhitespace;
       _pos += 8;
       _skipWhitespace();
-      if (_pos < _jsonStringLength && _jsonString.codeUnitAt(_pos) == 40 /* ( */ ) {
+      if (_pos < _jsonStringLength &&
+          _jsonString.codeUnitAt(_pos) == 40 /* ( */ ) {
         final dynamic result = _parseFunctionCall(
           r"$include",
           commentLocation: commentLocation,
@@ -697,7 +727,10 @@ class Json5Parser {
               _pos = i;
               _error("Incomplete unicode escape");
             }
-            final int? charCode = int.tryParse(_jsonString.substring(i + 1, i + 5), radix: 16);
+            final int? charCode = int.tryParse(
+              _jsonString.substring(i + 1, i + 5),
+              radix: 16,
+            );
             if (charCode == null) {
               _pos = i;
               _error("Invalid unicode escape");
@@ -711,7 +744,10 @@ class Json5Parser {
               _pos = i;
               _error("Incomplete hex escape");
             }
-            final int? charCode = int.tryParse(_jsonString.substring(i + 1, i + 3), radix: 16);
+            final int? charCode = int.tryParse(
+              _jsonString.substring(i + 1, i + 3),
+              radix: 16,
+            );
             if (charCode == null) {
               _pos = i;
               _error("Invalid hex escape");
@@ -759,7 +795,11 @@ class Json5Parser {
         (codeUnit >= 97 && codeUnit <= 122) || // a-z
         codeUnit == 95 || // _
         codeUnit == 36 /* $ */ ) {
-      return _parsePrimitive(commentLocation: commentLocation, container: container, index: index);
+      return _parsePrimitive(
+        commentLocation: commentLocation,
+        container: container,
+        index: index,
+      );
     }
     _error('Unexpected character "${String.fromCharCode(codeUnit)}",');
   }
@@ -816,7 +856,9 @@ class Json5Parser {
       return false;
     }
     final int firstCodeUnit = _jsonString.codeUnitAt(i);
-    if (firstCodeUnit > 32 && firstCodeUnit != 0x2028 && firstCodeUnit != 0x2029) {
+    if (firstCodeUnit > 32 &&
+        firstCodeUnit != 0x2028 &&
+        firstCodeUnit != 0x2029) {
       return firstCodeUnit == 47; // '/'
     }
     while (i < _jsonStringLength) {

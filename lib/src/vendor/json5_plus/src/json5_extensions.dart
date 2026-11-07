@@ -80,7 +80,10 @@ extension Json5StringExtension on String? {
   /// Converts the string to a boolan value
   bool toBool({final bool defaultValue = false}) => isBlank
       ? defaultValue
-      : this![0] == "y" || this![0] == "Y" || this!.toLowerCase() == "true" || this! == "1";
+      : this![0] == "y" ||
+            this![0] == "Y" ||
+            this!.toLowerCase() == "true" ||
+            this! == "1";
 
   //------------------------------------------------------------------------------------------------
   /// Converts the string to a [DateTime].
@@ -122,11 +125,17 @@ extension Json5StringExtension on String? {
       }
       if (length > timeIndex + 3) {
         hour = int.parse(strippedDate.substring(timeIndex, timeIndex + 2));
-        minute = int.parse(strippedDate.substring(timeIndex + 2, timeIndex + 4));
+        minute = int.parse(
+          strippedDate.substring(timeIndex + 2, timeIndex + 4),
+        );
         if (length > timeIndex + 5) {
-          second = int.parse(strippedDate.substring(timeIndex + 4, timeIndex + 6));
+          second = int.parse(
+            strippedDate.substring(timeIndex + 4, timeIndex + 6),
+          );
           if (length > timeIndex + 8) {
-            millisecond = int.parse(strippedDate.substring(timeIndex + 6, timeIndex + 9));
+            millisecond = int.parse(
+              strippedDate.substring(timeIndex + 6, timeIndex + 9),
+            );
           }
         }
       }

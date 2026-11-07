@@ -6,7 +6,10 @@ import 'json5_extensions.dart';
 mixin TypedAccessorMixin {
   //------------------------------------------------------------------------------------------------
   /// Returns the number of milliseconds since the epoch.
-  static final DateTime epochUtc = DateTime.fromMillisecondsSinceEpoch(0, isUtc: true);
+  static final DateTime epochUtc = DateTime.fromMillisecondsSinceEpoch(
+    0,
+    isUtc: true,
+  );
 
   //------------------------------------------------------------------------------------------------
   /// Returns the value associated with [key].
@@ -98,7 +101,8 @@ mixin TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Returns the double representation of the value associated with [key], or `null` if [key] is missing or null.
-  double? asDoubleOrNull(dynamic key) => containsKey(key) ? asDouble(key) : null;
+  double? asDoubleOrNull(dynamic key) =>
+      containsKey(key) ? asDouble(key) : null;
 
   //------------------------------------------------------------------------------------------------
   /// Returns the integer representation of the value associated with [key].
@@ -134,7 +138,9 @@ mixin TypedAccessorMixin {
       case bool b:
         return b ? "true" : "false";
       case DateTime d:
-        return this is Json5 ? d.format((this as Json5).dateTimeFormat) : d.formatIso8601();
+        return this is Json5
+            ? d.format((this as Json5).dateTimeFormat)
+            : d.formatIso8601();
       default:
         return result.toString();
     }
@@ -142,7 +148,8 @@ mixin TypedAccessorMixin {
 
   //------------------------------------------------------------------------------------------------
   /// Returns the string representation of the value associated with [key], or `null` if [key] is missing or null.
-  String? asStringOrNull(dynamic key) => containsKey(key) ? asString(key) : null;
+  String? asStringOrNull(dynamic key) =>
+      containsKey(key) ? asString(key) : null;
 
   //------------------------------------------------------------------------------------------------
   /// Return the value associated with [key].

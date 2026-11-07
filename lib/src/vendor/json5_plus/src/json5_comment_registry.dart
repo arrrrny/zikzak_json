@@ -16,11 +16,16 @@ enum ECommentLocation {
 
 @internal
 class Json5Comment {
-  final String comment; // The raw text of the comment, including the delimiters (// or /* */).
+  final String
+  comment; // The raw text of the comment, including the delimiters (// or /* */).
   final bool blockComment;
   final bool precededByNewline;
 
-  Json5Comment(this.comment, {required this.blockComment, required this.precededByNewline});
+  Json5Comment(
+    this.comment, {
+    required this.blockComment,
+    required this.precededByNewline,
+  });
 
   @override
   String toString() => comment;
@@ -32,7 +37,8 @@ class Json5Comment {
 class Json5CommentRegistry {
   //------------------------------------------------------------------------------------------------
   // Container -> Index -> Location -> List<Comments>
-  final Map<Object, Map<int, Map<ECommentLocation, List<Json5Comment>>>> _registryMap = {};
+  final Map<Object, Map<int, Map<ECommentLocation, List<Json5Comment>>>>
+  _registryMap = {};
 
   //------------------------------------------------------------------------------------------------
   /// Adds a comment to the registry.
@@ -49,8 +55,11 @@ class Json5CommentRegistry {
 
   //------------------------------------------------------------------------------------------------
   /// Retrieves comments for a specific structural point.
-  List<Json5Comment>? getComments(Object container, int index, ECommentLocation location) =>
-      _registryMap[container]?[index]?[location];
+  List<Json5Comment>? getComments(
+    Object container,
+    int index,
+    ECommentLocation location,
+  ) => _registryMap[container]?[index]?[location];
 
   //------------------------------------------------------------------------------------------------
   /// Checks if any comments exist for a specific container (useful for the formatter).
@@ -58,8 +67,8 @@ class Json5CommentRegistry {
 
   //------------------------------------------------------------------------------------------------
   void moveContainer(Object oldContainer, Object newContainer) {
-    final Map<int, Map<ECommentLocation, List<Json5Comment>>>? indexToCommentMap = _registryMap
-        .remove(oldContainer);
+    final Map<int, Map<ECommentLocation, List<Json5Comment>>>?
+    indexToCommentMap = _registryMap.remove(oldContainer);
     if (indexToCommentMap != null) {
       _registryMap[newContainer] = indexToCommentMap;
     }
