@@ -181,7 +181,7 @@ Input String
 ## Similar packages
 
 - [`json5`](https://pub.dev/packages/json5) — Standard JSON5 parser, rejects numeric object keys (`102717: "val"`)
-- [`json5_plus`](https://pub.dev/packages/json5_plus) — JSON5 parser with typed accessors and `$include` support
+- [`json5_plus`](https://pub.dev/packages/json5_plus) — JSON5 parser with typed accessors and `$include` support. `zikzak_json` vendors 0.1.8 under `lib/src/vendor/json5_plus/` with a fix for [AndyKing42/json5_plus#1](https://github.com/AndyKing42/json5_plus/issues/1) (a bare `/` outside a string hangs the parser); the dependency is dropped until that ships.
 - [`simdjson_dart`](https://pub.dev/packages/simdjson_dart) — Raw simdjson bindings for Dart
 
 ---

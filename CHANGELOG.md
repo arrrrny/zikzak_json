@@ -1,3 +1,13 @@
+## 0.3.1
+
+### Fixed
+
+- **A bare `/` outside a string no longer hangs the parser.** `json5_plus` 0.1.8 never advances its cursor when a `/` starts neither `//` nor `/*`, so `_skipWhitespaceAndRegisterComments` re-reads the same position forever — `ZikZakJson.decode` on such a candidate never returns, and because the spin is synchronous no test timeout can interrupt it (arrrrny/scraper_configs#53). The parser now rejects the token with a `FormatException`, matching JSON5's lack of expression syntax. Upstream: [AndyKing42/json5_plus#1](https://github.com/AndyKing42/json5_plus/issues/1).
+
+### Changed
+
+- **`json5_plus` is vendored instead of depended on.** 0.1.8 with the fix above lives in `lib/src/vendor/json5_plus/` (Apache-2.0, `LICENSE` alongside it), so downstream projects no longer need their own `dependency_overrides` entry to avoid the hang. The `json5_plus` dependency is dropped; `meta` becomes a direct dependency. Remove the vendored copy and restore the dependency once the upstream fix ships.
+
 ## 0.3.0
 
 ### Features

@@ -123,6 +123,25 @@ void main() {
       final values = JSONPath.query(r'$.itemList[*].brand', json, wrap: false);
       expect(values, ['Master Lock']);
     });
+
+    test('18. a bare "/" outside a string is rejected, not spun on', () {
+      // Regression guard for arrrrny/json5_plus#1. Upstream json5_plus 0.1.8
+      // never advances `_pos` when a "/" starts neither `//` nor `/*`, so the
+      // enclosing loop re-reads the same position forever — the parse does not
+      // return and no test timeout can interrupt it (the spin never yields).
+      // The vendored copy rejects the token instead.
+      //
+      // The padding is load-bearing: the JSON5 engine is only reached for
+      // candidates above the fast-path/simdjson thresholds, so a short input
+      // would pass through a different branch and keep this test green even
+      // with the patch removed.
+      expect(
+        () => ZikZakJson.decode(
+          '{"a": 1 / 2, "padpadpadpad": "0123456789abcdef"}',
+        ),
+        throwsFormatException,
+      );
+    });
   });
 
   group('extractPaths:', () {
