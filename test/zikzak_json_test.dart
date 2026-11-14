@@ -142,6 +142,21 @@ void main() {
         throwsFormatException,
       );
     });
+
+    test('19. the issue #3 repro {re: /} throws instead of hanging', () {
+      // The exact reproduction from arrrrny/zikzak_json#3: a value that is a
+      // lone "/" (regex-shaped, no padding). Unlike the padded test 18, this
+      // short input takes no length thresholds on the way into the json5
+      // engine, so it guards the hang path directly.
+      expect(() => ZikZakJson.decode('{re: /}'), throwsFormatException);
+    });
+
+    test('20. the issue #3 repro {a: 1 / 2} throws instead of hanging', () {
+      // Second reproduction from arrrrny/zikzak_json#3: a division-shaped
+      // expression. json5 has no expression syntax, so the bare "/" must be
+      // rejected with a FormatException, never spun on.
+      expect(() => ZikZakJson.decode('{a: 1 / 2}'), throwsFormatException);
+    });
   });
 
   group('extractPaths:', () {

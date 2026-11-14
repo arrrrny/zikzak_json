@@ -848,6 +848,23 @@ class Json5Parser {
   }
 
   //------------------------------------------------------------------------------------------------
+  /// True when a real comment (`//` or `/*`) starts at [i].
+  ///
+  /// arrrrny/zikzak_json#3: upstream 0.1.8 answered "a comment follows" for
+  /// any bare `/`, including one that starts neither `//` nor `/*` — the
+  /// second entry into the `_skipWhitespaceAndRegisterComments` spin. The
+  /// vendored copy already rejects a lone `/` there (see the `else` arm);
+  /// this keeps the `_skipWhitespace` contract honest so the guard does not
+  /// rest on that single arm alone.
+  bool _commentStartsAt(int i) {
+    final int next = i + 1;
+    if (next >= _jsonStringLength) {
+      return false;
+    }
+    final int codeUnit = _jsonString.codeUnitAt(next);
+    return codeUnit == 47 /* / */ || codeUnit == 42 /* * */;
+  }
+
   @pragma('vm:prefer-inline')
   bool _skipWhitespace() {
     _newlineFoundInWhitespace = false;
@@ -859,7 +876,7 @@ class Json5Parser {
     if (firstCodeUnit > 32 &&
         firstCodeUnit != 0x2028 &&
         firstCodeUnit != 0x2029) {
-      return firstCodeUnit == 47; // '/'
+      return firstCodeUnit == 47 && _commentStartsAt(i); // '/'
     }
     while (i < _jsonStringLength) {
       final int codeUnit = _jsonString.codeUnitAt(i);
@@ -872,7 +889,7 @@ class Json5Parser {
         continue;
       }
       _pos = i;
-      return codeUnit == 47; // '/'
+      return codeUnit == 47 && _commentStartsAt(i); // '/'
     }
     _pos = i;
     return false;
