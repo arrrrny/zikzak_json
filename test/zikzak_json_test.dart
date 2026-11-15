@@ -157,6 +157,17 @@ void main() {
       // rejected with a FormatException, never spun on.
       expect(() => ZikZakJson.decode('{a: 1 / 2}'), throwsFormatException);
     });
+
+    test('21. a lone "/" in key position parses as an unquoted key', () {
+      // Pins the key-position behavior change documented in the PR body:
+      // before the honest `_skipWhitespace` contract, `{/: 1}` threw (the
+      // bare "/" entered comment consumption); now it parses, with "/"
+      // accepted as an unquoted key via lenient `_parseKey`. A future
+      // tightening of `_parseKey` or a revert of `_commentStartsAt` would
+      // otherwise flip this silently — tests 19/20 pin only the
+      // value-position throws.
+      expect(ZikZakJson.decode('{/: 1}')['/'], 1);
+    });
   });
 
   group('extractPaths:', () {
