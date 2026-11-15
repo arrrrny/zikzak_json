@@ -142,6 +142,32 @@ void main() {
         throwsFormatException,
       );
     });
+
+    test('19. the issue #3 repro {re: /} throws instead of hanging', () {
+      // The exact reproduction from arrrrny/zikzak_json#3: a value that is a
+      // lone "/" (regex-shaped, no padding). Unlike the padded test 18, this
+      // short input takes no length thresholds on the way into the json5
+      // engine, so it guards the hang path directly.
+      expect(() => ZikZakJson.decode('{re: /}'), throwsFormatException);
+    });
+
+    test('20. the issue #3 repro {a: 1 / 2} throws instead of hanging', () {
+      // Second reproduction from arrrrny/zikzak_json#3: a division-shaped
+      // expression. json5 has no expression syntax, so the bare "/" must be
+      // rejected with a FormatException, never spun on.
+      expect(() => ZikZakJson.decode('{a: 1 / 2}'), throwsFormatException);
+    });
+
+    test('21. a lone "/" in key position parses as an unquoted key', () {
+      // Pins the key-position behavior change documented in the PR body:
+      // before the honest `_skipWhitespace` contract, `{/: 1}` threw (the
+      // bare "/" entered comment consumption); now it parses, with "/"
+      // accepted as an unquoted key via lenient `_parseKey`. A future
+      // tightening of `_parseKey` or a revert of `_commentStartsAt` would
+      // otherwise flip this silently — tests 19/20 pin only the
+      // value-position throws.
+      expect(ZikZakJson.decode('{/: 1}')['/'], 1);
+    });
   });
 
   group('extractPaths:', () {
